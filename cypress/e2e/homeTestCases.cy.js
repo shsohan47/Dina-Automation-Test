@@ -61,6 +61,13 @@ describe("Dina Home Page - All Test Cases",()=>
             //check valid View Title validation test case
             space.verifyEditFunction("Automated Test View","")
         })
+        it('should create a new view with a random title and add a widget',()=>
+        {
+            const randomTitle = space.generateRandomTitle();
+            cy.visit('/');
+            space.addYourFirstWidget(randomTitle);
+
+        })
       });
       
 
