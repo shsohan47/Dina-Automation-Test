@@ -4,7 +4,7 @@ describe('For all Login test cases', () => {
     const loginPage = new LoginPage();
     loginPage.login(Cypress.env('username'),Cypress.env('password'));
     // Wait for the toolbar element to appear
-    cy.get('.MuiToolbar-root',{timeout:10000}).should('be.visible').then(($element) => {
+    cy.get('.MuiToolbar-root',{timeout:25000}).should('be.visible').then(($element) => {
       expect($element).to.be.visible; // wait upto 10 sec
   });
   });

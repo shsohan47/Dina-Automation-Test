@@ -30,18 +30,18 @@ describe("Dina Home Page - All Test Cases",()=>
         {
             cy.visit("/");
             //tooltipchecker function
-            cy.checkToolTipOnHover('.css-195z9pq','.css-1y1ducw','Home');
+            cy.checkToolTipOnHover('.css-1diogi2','.css-lwihi1','Home');
         })
 
     })
 
     context("Home Spaces View Functionality", () => {
         const space = new Spaces();
-        it.only("Test cases of creating a new Test View", () => {
+        it("Test cases of creating a new Test View", () => {
           cy.visit("/");
       
           // Tooltip check on hover
-          cy.checkToolTipOnHover('.css-xi14m > svg', '.css-1y1ducw', 'Create a new view');
+          cy.checkToolTipOnHover('.css-11qfyq1 > svg', '.css-lwihi1', 'Create a new view');
       
          //create a new view
          space.createNewView('Automated Test View');
@@ -49,13 +49,13 @@ describe("Dina Home Page - All Test Cases",()=>
          space.verifyViewCreated('Automated Test View')
         });
 
-        it.only("Test cases for edit Test view which was created with valid Title",()=>
+        it("Test cases for edit Test view which was created with valid Title",()=>
         {
             cy.visit('/');
             //check valid View Title validation test case
             space.verifyEditFunction("Automated Test View","Automated Test View V1")
         })
-        it.only('Test cases for edit Test view which was created with Invalid/empty Title',()=>
+        it('Test cases for edit Test view which was created with Invalid/empty Title',()=>
         {
             cy.visit('/');
             //check valid View Title validation test case

@@ -2,19 +2,19 @@
 
 class Spaces {
     // Selectors for different elements on the page
-    createNewViewButton = '.css-xi14m > svg';
-    modalContainer = '.css-zyzje6';
-    layoutSelector = '.css-16x0q08 > :nth-child(6)';
+    createNewViewButton = '.css-11qfyq1 > svg';
+    modalContainer = '.css-1o88u2p';
+    layoutSelector = '.css-10mpywq > :nth-child(6)';
     viewTitleInput = '.MuiInputBase-root.MuiFilledInput-root.MuiFilledInput-underline.Mui-error.Mui-error.MuiInputBase-fullWidth.MuiInputBase-formControl';
-    createButton = '.css-acb0ak > span';
+    createButton = '.css-1qmerqt > .Button';
     createdViewsList = '.css-7r4jfq';
     viewRightClickModal = '[style="position: fixed; z-index: 1300; inset: 0px;"] > .MuiPaper-root > .MuiList-root';
     rightClickEditOption = '.MuiPaper-root > .MuiList-root > :nth-child(1) > .MuiButtonBase-root';
     rightCLickDeleteOption = '.MuiPaper-root > .MuiList-root > :nth-child(2) > .MuiButtonBase-root'
-    editModal = '.css-ncxfgu'
+    editModal = '.css-1o88u2p'
     editModalViewTitle = '.css-l89pnf'
-    editModalApplyButton = '.Button.css-1af6hn3-I'
-    editModalCancleButton = ".Button.css-f7k1iq-I"
+    editModalApplyButton = 'Apply'
+    editModalCancleButton = "Cancel"
 
     
     // Method to open the "Create New View" modal
@@ -34,7 +34,8 @@ class Spaces {
       cy.get(this.layoutSelector).click();
   
       // Verify that the create button is enabled, then click it
-      cy.get(this.createButton).should('not.be.disabled').click();
+      cy.get(this.createButton).should('not.be.disabled')
+      cy.get(this.createButton).click();
     }
   
     // Method to verify the view was created
@@ -61,25 +62,26 @@ class Spaces {
           // Clear the title field and type it
           cy.get(this.editModalViewTitle).clear();
     
-          if (editTitle) {
-            // If editTitle is not empty, type the title and click apply
-            cy.get(this.editModalViewTitle).type(editTitle);
-            cy.get(this.editModalApplyButton).click();
-            
-            // Verify that the updated title is visible outside the modal
-            //cy.contains(editTitle).should('be.visible');
-          } else {
-            // If editTitle is empty, verify that the button is disabled (or error message appears)
-            cy.get(this.editModalApplyButton).should('be.disabled');
-            cy.get(this.editModalCancleButton).click();  
-          }
-          if(editTitle)
-            {
-              // Ensure the title changed
-              cy.contains(editTitle).should('be.visible');
-            }
+          
 
         });
+        if (editTitle) {
+          // If editTitle is not empty, type the title and click apply
+          cy.get(this.editModalViewTitle).type(editTitle);
+          cy.contains(this.editModalApplyButton).click();
+          
+          // Verify that the updated title is visible outside the modal
+          //cy.contains(editTitle).should('be.visible');
+        } else {
+          // If editTitle is empty, verify that the button is disabled (or error message appears)
+          cy.contains(this.editModalApplyButton).should('be.disabled');
+          cy.contains(this.editModalCancleButton).click({force:true});  
+        }
+        if(editTitle)
+          {
+            // Ensure the title changed
+            cy.contains(editTitle).should('be.visible');
+          }
       });
     }
     

@@ -5,7 +5,7 @@ export default class LoginPage {
         loginButton: 'LOG IN',
         valdation_username:':nth-child(1) > .MuiFormControl-root > .MuiFormHelperText-root',
         valdation_password:':nth-child(2) > .MuiFormControl-root > .MuiFormHelperText-root',
-        Button: ".MuiButtonBase-root.MuiButton-root.MuiButton-text.css-wkz5zt.Mui-disabled.Mui-disabled"
+        Button: ".MuiButtonBase-root.MuiButton-root.MuiButton-text.css-i99cp8.Mui-disabled.Mui-disabled"
         
     };
 
