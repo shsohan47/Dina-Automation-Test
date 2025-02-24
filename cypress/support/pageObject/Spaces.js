@@ -29,6 +29,7 @@ class Spaces {
   //For random generated Title function
    generateRandomTitle() {
     const randomNumber = Math.floor(Math.random() * 10000) + 1; // Random number between 1 and 10000
+    cy.log("titilename:",`Automated Random Title: ${randomNumber}`)
     return `Automated Random Title: ${randomNumber}`;
   }
   
@@ -105,7 +106,7 @@ class Spaces {
       cy.get(this.deleteButton).click();
     })
     cy.get(this.deleteConfirmationModal).should('be.visible');
-    cy.get('.Button.css-100skwn-G8').eq(1).click({force:true});
+    cy.contains('button','Delete').click();
   }
   //Test case for add your first widget button
   addYourFirstWidget(generateRandomTitle) {
