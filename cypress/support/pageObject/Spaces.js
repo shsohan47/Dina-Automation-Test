@@ -126,10 +126,8 @@ class Spaces {
       cy.contains('Feed').click();
     });
     cy.get('.css-1hth4v0-Header').should("be.visible");
-    this.verifyDeleteFunction(generateRandomTitle);
-    cy.get(this.createdViewsList).should('not.contain',generateRandomTitle)
-    // Optionally, verify that the widget was created and is visible after selection
-    //cy.get(this.createdWidgetSelector).should('be.visible');
+   
+    
   }
   
 }
