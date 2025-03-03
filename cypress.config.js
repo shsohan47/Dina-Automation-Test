@@ -9,5 +9,11 @@ module.exports = defineConfig({
       experimentalRunAllSpecs: true
 
     },
+    // cypress.json
+
+  "clearCookies": false,
+  "clearLocalStorage": false
+
+
   },
 );
