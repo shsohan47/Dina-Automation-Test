@@ -2,12 +2,13 @@
 
 class Spaces {
   // Selectors for different elements on the page
-  createNewViewButton = ".css-11qfyq1 > svg";
+  createNewViewButton = 'button svg path#add_small'; 
+  
   modalContainer = ".css-1o88u2p";
   layoutSelector = ".css-10mpywq > :nth-child(1)";
   viewTitleInput =
     ".MuiInputBase-root.MuiFilledInput-root.MuiFilledInput-underline.Mui-error.Mui-error.MuiInputBase-fullWidth.MuiInputBase-formControl";
-  createButton = ".css-1qmerqt > .Button";
+  createButton = '[aria-label="Create view"]';
   createdViewsList = ".css-7r4jfq";
   viewRightClickModal =
     '[style="position: fixed; z-index: 1300; inset: 0px;"] > .MuiPaper-root > .MuiList-root';

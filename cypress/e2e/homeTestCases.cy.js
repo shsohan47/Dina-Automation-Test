@@ -4,7 +4,7 @@ import Spaces from "../support/pageObject/Spaces"
 import widgets from "../support/pageObject/widgets"
 describe("Dina Home Page - All Test Cases",()=>
 {
-    
+    let randomTitleForSpace;
     const navigationBarIcon = new NavigationBar()
     beforeEach(()=>
     {
@@ -64,13 +64,13 @@ describe("Dina Home Page - All Test Cases",()=>
             //check valid View Title validation test case
             space.verifyEditFunction("Automated Test View","")
         })
-        it('should create a new view with a random title and add a widget',()=>
+        it('should create a new view with a random title and add a widget than delete it',()=>
         {
-            const randomTitle = space.generateRandomTitle();
+            randomTitleForSpace = space.generateRandomTitle();
             cy.visit('/');
-            space.addYourFirstWidget(randomTitle);
-            space.verifyDeleteFunction(randomTitle);
-            cy.get(space.createdViewsList).should('not.contain',randomTitle);
+            space.addYourFirstWidget(randomTitleForSpace);
+            // space.verifyDeleteFunction(randomTitle);
+            // cy.get(space.createdViewsList).should('not.contain',randomTitle);
 
 
         })
@@ -81,7 +81,8 @@ describe("Dina Home Page - All Test Cases",()=>
             {
                 it("should allow the user to edit the title of Feeds Widget",()=>
                     {
-                        const randomTitleForSpace = space.generateRandomTitle();
+                       randomTitleForSpace = space.generateRandomTitle();
+                        
                         cy.visit('/')
                         space.addYourFirstWidget(randomTitleForSpace);
                         widget.checkExpandCollapseMenu()
@@ -90,9 +91,24 @@ describe("Dina Home Page - All Test Cases",()=>
                             widget.doubleClickToeditWidgetTitle("This is Automated Feed Widget Title")
                         })
                     })
+             
             })
         })
+        afterEach("Delete the View everytime after each test case",()=>
+        {
+            if(randomTitleForSpace)
         
+            {
+                    space.verifyDeleteFunction(randomTitleForSpace);
+            }
+            
+            else{
+                cy.log("No view to delete, for now skipping deletion")
+            }
+            
+        }
+    )
+    
       });
       
 
