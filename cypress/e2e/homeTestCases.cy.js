@@ -1,9 +1,10 @@
 import NavigationBar from "../support/pageObject/NavigationBar"
 import LoginPage from "../support/pageObject/login"
 import Spaces from "../support/pageObject/Spaces"
+import widgets from "../support/pageObject/widgets"
 describe("Dina Home Page - All Test Cases",()=>
 {
-    
+    let randomTitleForSpace;
     const navigationBarIcon = new NavigationBar()
     beforeEach(()=>
     {
@@ -37,7 +38,7 @@ describe("Dina Home Page - All Test Cases",()=>
 
     context("Home Spaces View Functionality", () => {
         const space = new Spaces();
-        it("Test cases of creating a new Test View", () => {
+        it("should create a new view successfully", () => {
           cy.visit("/");
       
           // Tooltip check on hover
@@ -53,7 +54,9 @@ describe("Dina Home Page - All Test Cases",()=>
         {
             cy.visit('/');
             //check valid View Title validation test case
-            space.verifyEditFunction("Automated Test View","Automated Test View V1")
+            space.verifyEditFunction("Automated Test View","Automated Test View V1");
+            space.verifyDeleteFunction('Automated Test View V1');
+
         })
         it('Test cases for edit Test view which was created with Invalid/empty Title',()=>
         {
@@ -61,13 +64,51 @@ describe("Dina Home Page - All Test Cases",()=>
             //check valid View Title validation test case
             space.verifyEditFunction("Automated Test View","")
         })
-        it('should create a new view with a random title and add a widget',()=>
+        it('should create a new view with a random title and add a widget than delete it',()=>
         {
-            const randomTitle = space.generateRandomTitle();
+            randomTitleForSpace = space.generateRandomTitle();
             cy.visit('/');
-            space.addYourFirstWidget(randomTitle);
+            space.addYourFirstWidget(randomTitleForSpace);
+            // space.verifyDeleteFunction(randomTitle);
+            // cy.get(space.createdViewsList).should('not.contain',randomTitle);
+
 
         })
+        context("Will test each widget functionality",()=>
+        {
+            const widget = new widgets()
+            context("All test cases for Feeds widgets",()=>
+            {
+                it("should allow the user to edit the title of Feeds Widget",()=>
+                    {
+                       randomTitleForSpace = space.generateRandomTitle();
+                        
+                        cy.visit('/')
+                        space.addYourFirstWidget(randomTitleForSpace);
+                        widget.checkExpandCollapseMenu()
+                        cy.get('.css-1hth4v0-Header').within(()=>
+                        {
+                            widget.doubleClickToeditWidgetTitle("This is Automated Feed Widget Title")
+                        })
+                    })
+             
+            })
+        })
+        afterEach("Delete the View everytime after each test case",()=>
+        {
+            if(randomTitleForSpace)
+        
+            {
+                    space.verifyDeleteFunction(randomTitleForSpace);
+            }
+            
+            else{
+                cy.log("No view to delete, for now skipping deletion")
+            }
+            
+        }
+    )
+    
       });
       
 
