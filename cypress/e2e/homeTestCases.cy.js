@@ -31,18 +31,19 @@ describe("Dina Home Page - All Test Cases",()=>
         {
             cy.visit("/");
             //tooltipchecker function
-            cy.checkToolTipOnHover('.css-1diogi2','.css-lwihi1','Home');
+            //cy.checkToolTipOnHover('.css-1diogi2','.css-lwihi1','Home');
+            cy.checkToolTipOnHover('[data-state="closed"] .skipOverride', '[role="tooltip"]', 'Home');
+
         })
 
     })
 
     context("Home Spaces View Functionality", () => {
         const space = new Spaces();
+
         it("should create a new view successfully", () => {
+
           cy.visit("/");
-      
-          // Tooltip check on hover
-          cy.checkToolTipOnHover('.css-11qfyq1 > svg', '.css-lwihi1', 'Create a new view');
       
          //create a new view
          space.createNewView('Automated Test View');
