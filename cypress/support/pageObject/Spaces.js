@@ -2,13 +2,17 @@
 
 class Spaces {
   // Selectors for different elements on the page
-  createNewViewButton = 'button svg path#add_small'; 
-  
+
+  createNewViewButton = "div[role='tablist'] button[data-state='closed'] svg[width='48'][height='40']"
+
+
   modalContainer = ".css-1o88u2p";
   layoutSelector = ".css-10mpywq > :nth-child(1)";
   viewTitleInput =
     ".MuiInputBase-root.MuiFilledInput-root.MuiFilledInput-underline.Mui-error.Mui-error.MuiInputBase-fullWidth.MuiInputBase-formControl";
-  createButton = '[aria-label="Create view"]';
+
+  createButton = 'span[data-state="closed"] button[aria-label="Create view"]'
+
   createdViewsList = ".css-7r4jfq";
   viewRightClickModal =
     '[style="position: fixed; z-index: 1300; inset: 0px;"] > .MuiPaper-root > .MuiList-root';
@@ -50,7 +54,7 @@ class Spaces {
     cy.get(this.layoutSelector,{timeout:15000}).click();
 
     // Verify that the create button is enabled, then click it
-    cy.get(this.createButton).should("not.be.disabled");
+    cy.get(this.createButton,{timeout:15000}).should("not.be.disabled");
     cy.get(this.createButton).click();
   }
 
