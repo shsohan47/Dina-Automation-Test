@@ -41,7 +41,7 @@ describe("Dina Home Page - All Test Cases",()=>
     context("Home Spaces View Functionality", () => {
         const space = new Spaces();
 
-        it("should create a new view successfully", () => {
+        it.only("should create a new view successfully", () => {
 
           cy.visit("/");
       
