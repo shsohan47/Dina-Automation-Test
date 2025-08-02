@@ -51,7 +51,7 @@ describe("Dina Home Page - All Test Cases",()=>
          space.verifyViewCreated('Automated Test View')
         });
 
-        it("Test cases for edit Test view which was created with valid Title",()=>
+        it.only("Test cases for edit Test view which was created with valid Title",()=>
         {
             cy.visit('/');
             //check valid View Title validation test case

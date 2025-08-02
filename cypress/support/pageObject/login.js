@@ -14,6 +14,7 @@ export default class LoginPage {
         cy.get(this.selectors.username).type(username); // Type username
         cy.get(this.selectors.password).type(password); // Type password
         cy.contains(this.selectors.loginButton).click({ force: true }); // Click login button
-        // You might want to add assertions here to confirm successful login
+        //To check that after login user can see the HomePage successfully
+        cy.get('.MuiToolbar-root',{timeout:15000}).should('be.visible');
     }
 }
