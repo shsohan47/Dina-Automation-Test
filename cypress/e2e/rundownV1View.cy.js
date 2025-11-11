@@ -1,5 +1,6 @@
 import LoginPage from "../support/pageObject/login"
 import BasicRundown from "../support/pageObject/BasicRundown"
+import '@4tw/cypress-drag-drop'
 
 describe("Rundown v1 View - All Test Cases",()=>
 {
@@ -7,6 +8,7 @@ describe("Rundown v1 View - All Test Cases",()=>
         cy.session("login session",()=>
         {
             const loginPage = new LoginPage();
+            cy.log(Cypress.env('username'));
             loginPage.login(Cypress.env('username'),Cypress.env('password'));
             
 
@@ -15,7 +17,7 @@ describe("Rundown v1 View - All Test Cases",()=>
     })
     context("Master Rundown Template Create Functionality",()=>
     {
-        it("should click the left side rundown button and show rundown tabs",()=>
+        it("should Work the Rundown Creation end to end Functionality",()=>
         {
             const rundown = new BasicRundown();
             cy.visit('/')
@@ -49,20 +51,26 @@ describe("Rundown v1 View - All Test Cases",()=>
                 .contains('Edit Rundown Templates')
                 .click();
             })
+            //CREATE A NEW GROUP FIRST
+            rundown.CreateNewGroupForRundownTemplate()
             
-            //That should open Rundown template container
-            cy.get('span[variant="h7"]')
-            .contains("Rundown Templates")
-            .should('exist')
+            //CREATE A NEW TEMPLATE INSIDE THE GROUP
+            cy.contains('button','New Template').should('be.visible').click();
+            // create rundown template dialog should appear
+            rundown.getRundownCreateTemplateDialog().within(()=>
+            {
+                cy.contains('label','Tv').should("exist").click();
+                cy.get('input[placeholder="Type title here..."]').should('be.visible').type("Automated Test Rundown Template v1");
+                cy.contains('button','Create').should('be.visible').click();
+            })
+            //verify the template was created inside the group... To be continued...
 
-            //make a new automated group
-            cy.contains('button', 'New Group').should('be.visible').click();
-            cy.find('Untitled').dblclick()
-            .type("Automated Rundown template Group")
-            
 
         })
         
+    })
+    after(()=>{
+        //will delete the group and the rundown from the template
     })
 }
 )

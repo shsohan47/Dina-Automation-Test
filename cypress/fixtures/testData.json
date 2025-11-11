@@ -1,0 +1,11 @@
+{
+  "validViewTitle": "Automated Test View",
+  "invalidCredentials": {
+    "username": "invalid",
+    "password": "InvalidPassword"
+  },
+  "validationMessages": {
+    "userNotExist": "User does not exist.",
+    "incorrectCredentials": "Incorrect username or password."
+  }
+}
