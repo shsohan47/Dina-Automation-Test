@@ -1,0 +1,41 @@
+{
+    "users": {
+        "validUser": {
+            "username": "Sohan",
+            "password": "craftsmen2024"
+        },
+        "invalidUser": {
+            "username": "invalid",
+            "password": "InvalidPassword"
+        }
+    },
+    "views": {
+        "defaultView": {
+            "title": "Automated Test View",
+            "layout": "single-column"
+        },
+        "editedView": {
+            "title": "Automated Test View V1",
+            "layout": "two-column"
+        }
+    },
+    "widgets": {
+        "feedWidget": {
+            "type": "Feed",
+            "title": "This is Automated Feed Widget Title"
+        },
+        "calendarWidget": {
+            "type": "Calendar",
+            "title": "Team Calendar"
+        }
+    },
+    "validationMessages": {
+        "userNotExist": "User does not exist.",
+        "incorrectCredentials": "Incorrect username or password."
+    },
+    "tooltips": {
+        "home": "Home",
+        "spaces": "Spaces",
+        "settings": "Settings"
+    }
+}
