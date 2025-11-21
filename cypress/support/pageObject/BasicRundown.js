@@ -1,9 +1,4 @@
 import BasePage from './BasePage';
-
-/**
- * BasicRundown - Page Object for Rundown functionality
- * @extends BasePage
- */
 class BasicRundown extends BasePage {
     /**
      * Selectors for rundown elements
@@ -14,20 +9,13 @@ class BasicRundown extends BasePage {
         createRundownTemplateDialog: 'div[role="dialog"][data-state="open"]',
     };
 
-    /**
-     * Click on the Rundown tab in the left sidebar
-     * @returns {Cypress.Chainable}
-     */
     leftSideBarRundownClick() {
         return cy.get(this.selectors.leftSideBarRoleTab, { timeout: 15000 }).eq(8).click();
     }
 
     /**
      * Create a new group for rundown template
-     * @returns {Cypress.Chainable}
-     * @example
-     * const rundown = new BasicRundown();
-     * rundown.CreateNewGroupForRundownTemplate();
+    
      */
     CreateNewGroupForRundownTemplate() {
         // Open the Rundown template container
@@ -39,7 +27,7 @@ class BasicRundown extends BasePage {
             .within(() => {
 
                 // Click "New Group" inside this container
-                cy.contains('button', 'New Group').should('be.visible').dblclick();
+                cy.contains('button', 'New Group').should('be.visible').click();
 
                 // Wait for the new group to appear and rename it
                 cy.contains('Untitled', { timeout: 10000 })
@@ -51,7 +39,6 @@ class BasicRundown extends BasePage {
 
     /**
      * Get the rundown create template dialog
-     * @returns {Cypress.Chainable}
      */
     getRundownCreateTemplateDialog() {
         return cy.contains('h2', 'Create Rundown Template')
