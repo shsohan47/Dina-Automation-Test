@@ -1,4 +1,5 @@
 import BasePage from './BasePage';
+
 class BasicRundown extends BasePage {
     /**
      * Selectors for rundown elements
@@ -7,6 +8,12 @@ class BasicRundown extends BasePage {
         leftSideBarRoleTab: 'button[role="tab"]',
         editRundownTemplateContainer: '[role="menu"][aria-orientation="vertical"][data-state="open"]',
         createRundownTemplateDialog: 'div[role="dialog"][data-state="open"]',
+        
+        // 4-Panel Layout Selectors
+        resourcePanel: '[data-panel-id="assets"]',
+        readyPanel: '[data-panel-id="rundown-ready-list"]',
+        preparingPanel: '[data-panel-id="rundown-preparing-list"]',
+        editorPanel: '[data-panel-id="editor"]',
     };
 
     leftSideBarRundownClick() {
@@ -14,27 +21,44 @@ class BasicRundown extends BasePage {
     }
 
     /**
-     * Create a new group for rundown template
-    
+     * Navigate to Edit Rundown Templates
+     * This opens the More menu and clicks Edit Rundown Templates
      */
-    CreateNewGroupForRundownTemplate() {
-        // Open the Rundown template container
-        return cy.get('span[variant="h7"]')
-            .contains('Rundown Templates')
+    navigateToEditRundownTemplates() {
+        // Click More button
+        cy.get('span[variant="h7"]')
+            .contains('Rundowns')
             .should('exist')
-            // This will traverse up to the parent div container of the Rundown template section
-            .parents('div').eq(1)
-            .within(() => {
-
-                // Click "New Group" inside this container
-                cy.contains('button', 'New Group').should('be.visible').click();
-
-                // Wait for the new group to appear and rename it
-                cy.contains('Untitled', { timeout: 10000 })
-                    .should('be.visible') // Wait for visibility instead of hard wait
-                    .dblclick()
-                    .type('Automated Rundown Template Group{enter}'); // press enter to confirm
+            .parentsUntil('body')
+            .find('button[aria-label="More"]')
+            .click();
+        
+        // Navigate to Edit Rundown Templates
+        cy.get(this.selectors.editRundownTemplateContainer)
+            .should("exist")
+            .then(($menu) => {
+                // Find and click active organization if it exists
+                const activeOrg = $menu.find(':contains("(Active Organization)")');
+                if (activeOrg.length) {
+                    cy.wrap(activeOrg)
+                        .parents('[role="menuitemradio"]')
+                        .click({ force: true });
+                }
+                // Click Edit Rundown Templates
+                cy.wrap($menu)
+                    .should('contain', 'Edit Rundown Templates')
+                    .contains('Edit Rundown Templates')
+                    .click();
             });
+    }
+
+    //Find the correct rundown template 
+    findAndClickRundownTemplate(templateTitle){
+        return cy.get('.MuiListItem-root[role="button"]')
+            .contains(templateTitle)
+            .scrollIntoView()
+            .should('be.visible')
+            .click()
     }
 
     /**
@@ -44,6 +68,69 @@ class BasicRundown extends BasePage {
         return cy.contains('h2', 'Create Rundown Template')
             .should('be.visible')
             .parents(this.selectors.createRundownTemplateDialog);
+    }
+
+    // ========== PANEL METHODS ==========
+
+    /**
+     * Get the Resources/Assets panel
+     */
+    getResourcePanel() {
+        return cy.get(this.selectors.resourcePanel).should('be.visible');
+    }
+
+    /**
+     * Get the Ready panel
+     */
+    getReadyPanel() {
+        return cy.get(this.selectors.readyPanel).should('be.visible');
+    }
+
+    /**
+     * Get the Preparing panel
+     */
+    getPreparingPanel() {
+        return cy.get(this.selectors.preparingPanel).should('be.visible');
+    }
+
+    /**
+     * Get the Editor panel
+     */
+    getEditorPanel() {
+        return cy.get(this.selectors.editorPanel).should('be.visible');
+    }
+
+    /**
+     * Verify all 4 panels are visible
+     */
+    verifyAllPanelsVisible() {
+        cy.get(this.selectors.resourcePanel).should('be.visible');
+        cy.get(this.selectors.readyPanel).should('be.visible');
+        cy.get(this.selectors.preparingPanel).should('be.visible');
+        cy.get(this.selectors.editorPanel).should('be.visible');
+    }
+    //expand rundown panel
+    expandPanel(RundownPanelSelector){
+        cy.get(RundownPanelSelector)
+            .then($panel => {
+                const expandBtn = $panel.find('button[aria-label="Expand"]');
+                if (expandBtn.length > 0) {
+                    cy.wrap(expandBtn).click();
+                }
+            })   
+    }
+
+    //collapse rundown panel
+    collapsePanel(RundownPanelSelector) {
+        cy.get(RundownPanelSelector)
+            .then($panel => {
+                // Pick up the minimize button if the panel is expanded
+                const minimiseBtn = $panel.find('button[aria-label="Minimize"]');
+                // This will make sure whether the panel is expand or collapse
+                if (minimiseBtn.length > 0) {
+                    cy.wrap(minimiseBtn).click();
+                }
+            })
     }
 }
 

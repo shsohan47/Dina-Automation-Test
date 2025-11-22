@@ -20,11 +20,28 @@ Cypress.Commands.add('suppressBackgroundRequests', () => {
       '**/background-polling/**',
       '**/analytics/**',
       '**/session-check/**',
-      '**/some-repeated-fetch/**'
+      '**/some-repeated-fetch/**',
+      '**/metrics/**',
+      '**/telemetry/**',
+      '**/heartbeat/**',
+      '**/ping/**',
+      '**/health/**',
+      '**/*.woff2',  // Font files
+      '**/*.woff',
+      '**/*.ttf',
+      '**/socket.io/**',  // WebSocket polling
+      '**/pusher/**',  // Pusher/realtime updates
+      '**/firebase/**',  // Firebase analytics
+      '**/sentry/**',  // Error tracking
+      '**/amplitude/**',  // Analytics
+      '**/mixpanel/**',  // Analytics
+      '**/segment/**',  // Analytics
     ];
   
     backgroundPatterns.forEach((pattern) => {
       cy.intercept('GET', pattern, { statusCode: 200, body: {} }).as('bg');
+      cy.intercept('POST', pattern, { statusCode: 200, body: {} }).as('bg');  // Also block POST
+      cy.intercept('PUT', pattern, { statusCode: 200, body: {} }).as('bg');   // Also block PUT
     });
   });
 
