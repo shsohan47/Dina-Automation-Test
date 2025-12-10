@@ -12,3 +12,7 @@
    cd <project-directory>
 
    npm install
+
+2. Run the script:
+   cd <project-directory>
+   npx cypress open
