@@ -1,4 +1,6 @@
 import BasePage from './BasePage';
+import '@testing-library/cypress/add-commands'
+
 
 class BasicRundown extends BasePage {
     /**
@@ -8,18 +10,34 @@ class BasicRundown extends BasePage {
         leftSideBarRoleTab: 'button[role="tab"]',
         editRundownTemplateContainer: '[role="menu"][aria-orientation="vertical"][data-state="open"]',
         createRundownTemplateDialog: 'div[role="dialog"][data-state="open"]',
-        
+
         // 4-Panel Layout Selectors
         resourcePanel: '[data-panel-id="assets"]',
         readyPanel: '[data-panel-id="rundown-ready-list"]',
         preparingPanel: '[data-panel-id="rundown-preparing-list"]',
         editorPanel: '[data-panel-id="editor"]',
+
     };
 
     leftSideBarRundownClick() {
         return cy.get(this.selectors.leftSideBarRoleTab, { timeout: 15000 }).eq(8).click();
     }
+    switchToRundownV2() {
+        cy.findAllByRole('switch', { name: 'Use Enhanced Rundown' }).then($switch => {
+            //checking if the toggle button is exist if not then assuming we are already in Rundown v2 so skipping that part
+            if ($switch.length === 0) {
+                cy.log("Already in Enhanced Rundown mode, skipping...")
+            }
+            //if exist then make the button turn on
+            const isChecked = $switch.attr('aria-checked') === 'true'
+            if (!isChecked) {
+                cy.wrap($switch).click()
+            }
+        })
+        //after switching on the toggle button  clikon on Update to see the change
+        cy.findByRole('button', { name: 'Update' }).click()
 
+    }
     /**
      * Navigate to Edit Rundown Templates
      * This opens the More menu and clicks Edit Rundown Templates
@@ -32,7 +50,7 @@ class BasicRundown extends BasePage {
             .parentsUntil('body')
             .find('button[aria-label="More"]')
             .click();
-        
+
         // Navigate to Edit Rundown Templates
         cy.get(this.selectors.editRundownTemplateContainer)
             .should("exist")
@@ -53,7 +71,7 @@ class BasicRundown extends BasePage {
     }
 
     //Find the correct rundown template 
-    findAndClickRundownTemplate(templateTitle){
+    findAndClickRundownTemplate(templateTitle) {
         return cy.get('.MuiListItem-root[role="button"]')
             .contains(templateTitle)
             .scrollIntoView()
@@ -110,14 +128,14 @@ class BasicRundown extends BasePage {
         cy.get(this.selectors.editorPanel).should('be.visible');
     }
     //expand rundown panel
-    expandPanel(RundownPanelSelector){
+    expandPanel(RundownPanelSelector) {
         cy.get(RundownPanelSelector)
             .then($panel => {
                 const expandBtn = $panel.find('button[aria-label="Expand"]');
                 if (expandBtn.length > 0) {
                     cy.wrap(expandBtn).click();
                 }
-            })   
+            })
     }
 
     //collapse rundown panel
